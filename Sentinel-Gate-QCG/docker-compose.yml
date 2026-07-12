@@ -1,0 +1,63 @@
+services:
+  redis:
+    image: redis:8-alpine
+    # Persistence + sane memory policy so a flood cannot OOM the box; evict
+    # the least-recently-used keys (rate-limit buckets are reconstructable).
+    command: >
+      redis-server
+      --maxmemory 256mb
+      --maxmemory-policy allkeys-lru
+      --save ""
+      --appendonly no
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    # Not published to the host: only the gateway talks to Redis.
+    expose:
+      - "6379"
+    restart: unless-stopped
+
+  gateway:
+    build: .
+    depends_on:
+      redis:
+        condition: service_healthy
+    environment:
+      SENTINEL_ENVIRONMENT: production
+      SENTINEL_REDIS_URL: redis://redis:6379/0
+      # REQUIRED in production. Override these with real secrets (e.g. via an
+      # .env file or your orchestrator's secret store) -- do NOT ship these.
+      # Required in production:
+      SENTINEL_HMAC_SECRET: ${SENTINEL_HMAC_SECRET:?set a strong HMAC secret}
+      SENTINEL_ADMIN_TOKEN: ${SENTINEL_ADMIN_TOKEN:?set a strong admin token}
+      # VIP is optional (off unless you enable it). To use it, set both:
+      #   SENTINEL_VIP_ENABLED=true and a strong SENTINEL_VIP_API_KEY.
+      SENTINEL_VIP_API_KEY: ${SENTINEL_VIP_API_KEY:-}
+      # If a real reverse proxy / LB sits in front, uncomment and set its CIDR
+      # so X-Forwarded-For is honoured ONLY from it (comma-separated allowed).
+      # SENTINEL_TRUSTED_PROXIES: "10.0.0.0/8"
+      SENTINEL_REDIS_FAIL_MODE: ${SENTINEL_REDIS_FAIL_MODE:-open}
+      # Logs go to STDOUT by default (see `docker compose logs gateway`).
+      # To ALSO keep a rotated file on the host, uncomment the next line AND
+      # the `volumes:` block below. The root filesystem is read-only, so a
+      # writable volume must be mounted for the log directory.
+      # SENTINEL_ACCESS_LOG_FILE: /var/log/sentinel/access.log
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    # Defence in depth at the container boundary.
+    read_only: true
+    # tmpfs gives the non-root user a writable scratch space without relaxing
+    # the read-only root filesystem.
+    tmpfs:
+      - /tmp
+    # volumes:
+    #   # Host directory <- container log directory. Files land in ./logs on
+    #   # the host. Ensure ./logs is writable by uid 10001 (the container user).
+    #   - ./logs:/var/log/sentinel
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL

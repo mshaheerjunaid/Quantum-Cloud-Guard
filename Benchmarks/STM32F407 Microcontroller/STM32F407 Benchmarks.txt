@@ -1,0 +1,159 @@
+Run 1:
+Keypair Cycles:
+40.81 ms
+Encaps Cycles:
+41.42 ms
+Decrypt Cycles:
+43.93 ms
+
+Run 2:
+Keypair Cycles:
+40.82 ms
+Encaps Cycles:
+41.43 ms
+Decrypt Cycles:
+43.94 ms
+
+Run 3:
+Keypair Cycles:
+40.84 ms
+Encaps Cycles:
+41.45 ms
+Decrypt Cycles:
+43.95 ms
+
+Run 4:
+Keypair Cycles:
+40.81 ms
+Encaps Cycles:
+41.42 ms
+Decrypt Cycles:
+43.92 ms
+
+Run 5:
+Keypair Cycles:
+40.83 ms
+Encaps Cycles:
+41.44 ms
+Decrypt Cycles:
+43.95 ms
+
+Run 6:
+Keypair Cycles:
+40.83 ms
+Encaps Cycles:
+41.44 ms
+Decrypt Cycles:
+43.95 ms
+
+Run 7:
+Keypair Cycles:
+40.82 ms
+Encaps Cycles:
+41.43 ms
+Decrypt Cycles:
+43.94 ms
+
+Run 8:
+Keypair Cycles:
+40.81 ms
+Encaps Cycles:
+41.42 ms
+Decrypt Cycles:
+43.93 ms
+
+Run 9:
+Keypair Cycles:
+40.83 ms
+Encaps Cycles:
+41.44 ms
+Decrypt Cycles:
+43.94 ms
+
+Run 10:
+Keypair Cycles:
+40.81 ms
+Encaps Cycles:
+41.42 ms
+Decrypt Cycles:
+43.93 ms
+
+Run 11:
+Keypair Cycles:
+41.27 ms
+Encaps Cycles:
+41.88 ms
+Decrypt Cycles:
+44.38 ms
+
+Run 12:
+Keypair Cycles:
+40.85 ms
+Encaps Cycles:
+41.46 ms
+Decrypt Cycles:
+43.97 ms
+
+Run 13:
+Keypair Cycles:
+40.84 ms
+Encaps Cycles:
+41.45 ms
+Decrypt Cycles:
+43.96 ms
+
+Run 14:
+Keypair Cycles:
+40.82 ms
+Encaps Cycles:
+41.43 ms
+Decrypt Cycles:
+43.94 ms
+
+Run 15:
+Keypair Cycles:
+40.82 ms
+Encaps Cycles:
+41.43 ms
+Decrypt Cycles:
+43.94 ms
+
+Run 16:
+Keypair Cycles:
+40.80 ms
+Encaps Cycles:
+41.41 ms
+Decrypt Cycles:
+43.92 ms
+
+Run 17:
+Keypair Cycles:
+40.82 ms
+Encaps Cycles:
+41.44 ms
+Decrypt Cycles:
+43.94 ms
+
+Run 18:
+Keypair Cycles:
+40.85 ms
+Encaps Cycles:
+41.46 ms
+Decrypt Cycles:
+43.97 ms
+
+Run 19:
+Keypair Cycles:
+40.80 ms
+Encaps Cycles:
+41.41 ms
+Decrypt Cycles:
+43.92 ms
+
+Run 20:
+Keypair Cycles:
+40.81 ms
+Encaps Cycles:
+41.42 ms
+Decrypt Cycles:
+43.93 ms

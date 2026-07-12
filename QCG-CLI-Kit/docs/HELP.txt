@@ -1,0 +1,91 @@
+========================================================================
+  QUANTUM CLOUD GUARD (QCG) - USER GUIDE
+========================================================================
+
+This tool securely encrypts and decrypts company files using the
+company's post-quantum key server (qcgkms.cloud). You do NOT need Python
+or anything else installed: the qcg program is fully standalone.
+
+The program is called "qcg.exe" on Windows and "qcg" on macOS/Linux.
+
+------------------------------------------------------------------------
+  ONE-TIME SETUP
+------------------------------------------------------------------------
+
+1. Put the program somewhere permanent:
+     Windows:      C:\QCG\qcg.exe
+     macOS/Linux:  ~/qcg   (and run:  chmod +x ~/qcg)
+
+2. Create your config file so qcg knows the server and your key.
+   Your administrator gives you your API key.
+
+   --- Windows (PowerShell) ---
+     mkdir "$env:USERPROFILE\.qcg" -Force
+     @'
+     {
+       "url": "https://qcgkms.cloud",
+       "api_key": "qcg_PASTE_YOUR_KEY_HERE"
+     }
+     '@ | Set-Content -Encoding ascii "$env:USERPROFILE\.qcg\config.json"
+
+   --- macOS / Linux (Terminal) ---
+     mkdir -p ~/.qcg
+     cat > ~/.qcg/config.json <<'EOF'
+     {
+       "url": "https://qcgkms.cloud",
+       "api_key": "qcg_PASTE_YOUR_KEY_HERE"
+     }
+     EOF
+
+   (A template is included: config.example.json)
+
+3. (Optional) Make it runnable as just "qcg" from anywhere:
+
+   --- Windows ---
+     [Environment]::SetEnvironmentVariable("Path",
+       [Environment]::GetEnvironmentVariable("Path","User") + ";C:\QCG",
+       "User")
+     Then close and reopen PowerShell.
+
+   --- macOS / Linux ---
+     Move it to a folder on your PATH, e.g.:
+       sudo mv ~/qcg /usr/local/bin/qcg
+
+4. Verify your server's identity (one-time):
+
+     qcg trust
+
+   This pins your server's ML-DSA signing key and prints a fingerprint (a line
+   starting with sha256:). Confirm that fingerprint with your administrator over
+   a trusted channel. After this, every encrypt checks that the key it uses
+   really came from your server and was not substituted by an attacker.
+
+------------------------------------------------------------------------
+  DAILY USE  (same on every OS)
+------------------------------------------------------------------------
+
+Encrypt a file (locks it; safe to store or send):
+     qcg encrypt Report.pdf --key YOUR-KEY-NAME
+   -> produces Report.pdf.qcg
+
+Decrypt a file (checks the key out to you, starts your time window):
+     qcg decrypt Report.pdf.qcg
+   -> produces Report.pdf
+
+Check a file back in after editing (re-encrypts, closes your checkout):
+     qcg checkin Report.pdf --key YOUR-KEY-NAME
+
+If "qcg" is not recognized, you skipped the PATH step, or you are in an
+old terminal window. Use the full path instead:
+     Windows:      C:\QCG\qcg.exe encrypt Report.pdf --key YOUR-KEY-NAME
+     macOS/Linux:  ~/qcg encrypt Report.pdf --key YOUR-KEY-NAME
+
+------------------------------------------------------------------------
+  NOTES
+------------------------------------------------------------------------
+
+- Your administrator gives you your API key and your key name(s).
+- Keep your API key private. Treat it like a password.
+- This is a command-line tool: run it from a terminal, not by
+  double-clicking.
+- Full command reference is in COMMANDS.txt.

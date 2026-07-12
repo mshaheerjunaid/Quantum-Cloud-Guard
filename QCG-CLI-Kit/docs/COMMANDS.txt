@@ -1,0 +1,96 @@
+========================================================================
+  QCG COMMAND REFERENCE
+========================================================================
+
+GLOBAL OPTIONS (work with any command)
+  --url URL          KMS base URL (overrides config file)
+  --api-key KEY      KMS API key (overrides config file)
+
+  Normally you do NOT need these - they come from your config file at
+  %USERPROFILE%\.qcg\config.json. Use them only to override temporarily.
+
+------------------------------------------------------------------------
+  encrypt
+------------------------------------------------------------------------
+  qcg encrypt <file> --key <key-name> [options]
+
+  Encrypts <file> into <file>.qcg.
+
+  Options:
+    --key <name>     (required) the KMS key to encrypt under
+    -o, --out <path> output path (default: <file>.qcg)
+    --bench          print timing benchmark + system info after encrypting
+    --no-verify      skip the ML-DSA check on the recipient key (not advised)
+
+  Before encrypting, qcg verifies that the recipient public key was signed by
+  your KMS (see 'trust' below), so a tampered or substituted key is rejected.
+
+  Examples:
+    qcg encrypt Report.pdf --key team-data
+    qcg encrypt Report.pdf --key team-data -o Secret.qcg
+    qcg encrypt Report.pdf --key team-data --bench
+
+------------------------------------------------------------------------
+  trust
+------------------------------------------------------------------------
+  qcg trust [--show]
+
+  Pins your KMS's ML-DSA-87 signing key for the configured URL. Run this once,
+  the first time you set up. After pinning, every 'encrypt' verifies that the
+  public key it uses genuinely came from your KMS and was not swapped by an
+  attacker on the network.
+
+  Options:
+    --show           show the currently pinned key fingerprint instead of pinning
+
+  On first use, 'encrypt' will pin automatically and print a fingerprint. Confirm
+  that fingerprint with your KMS administrator (they can read it in the admin
+  console under Public-Key Authenticity).
+
+  Examples:
+    qcg trust
+    qcg trust --show
+
+------------------------------------------------------------------------
+  decrypt
+------------------------------------------------------------------------
+  qcg decrypt <file.qcg> [options]
+
+  Checks out the key to you (starting your accountability time window)
+  and decrypts the file.
+
+  Options:
+    -o, --out <path> output path (default: original name without .qcg)
+    --no-checkout    decrypt WITHOUT starting a time window (plain unwrap)
+    --bench          print timing benchmark + system info after decrypting
+
+  Examples:
+    qcg decrypt Report.pdf.qcg
+    qcg decrypt Report.pdf.qcg -o Open.pdf
+    qcg decrypt Report.pdf.qcg --bench
+
+------------------------------------------------------------------------
+  checkin
+------------------------------------------------------------------------
+  qcg checkin <file> --key <key-name> [options]
+
+  Re-encrypts an edited file and closes your checkout/time window.
+
+  Options:
+    --key <name>      (required) the KMS key to re-encrypt under
+    -o, --out <path>  output .qcg path (default: <file>.qcg)
+    --lease-id <id>   lease id (default: read from <file>.qcglease sidecar)
+    --keep-plaintext  do not delete the plaintext after re-encrypting
+
+  Example:
+    qcg checkin Report.pdf --key team-data
+
+------------------------------------------------------------------------
+  ABOUT --bench
+------------------------------------------------------------------------
+  The --bench flag is for measuring performance. It prints:
+    - server-side crypto time (pure ML-KEM-1024 + AES-256-GCM)
+    - local file crypto time
+    - end-to-end time including network
+    - your machine's OS, CPU, and RAM
+  Employees normally do not need this; it is for benchmarking.

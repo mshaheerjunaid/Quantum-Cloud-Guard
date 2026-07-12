@@ -1,0 +1,9 @@
+liboqs-python faulthandler is disabled
+ML-DSA-87 benchmark  iterations=1000  liboqs
+======================================================================
+  sizes: public_key=2592B  secret_key=4896B  signature=4627B
+----------------------------------------------------------------------
+  keygen       min=0.0948 mean=0.1087 median=0.1040 p99=0.1616 max=0.2987 ms
+  sign         min=0.1246 mean=0.2441 median=0.2102 p99=0.6346 max=1.0251 ms
+  verify       min=0.0919 mean=0.1179 median=0.1074 p99=0.2067 max=0.2524 ms
+======================================================================

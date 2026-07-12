@@ -1,0 +1,106 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "sentinel-gate-qcg"
+version = "1.2.0"
+description = "Sentinel Gate QCG: a self-hosted, multi-layer (L3/L4/L7) DDoS and security gateway for protecting the QCG KEM/KMS. Kernel-level packet filtering, atomic token-bucket rate limiting, spoof-resistant client identity, proof-of-work challenges, behavioural anomaly detection with off-path error-ratio feedback, and out-of-band AI log triage."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { file = "LICENSE" }
+authors = [{ name = "Muhammad Shaheer Bin Junaid" }]
+keywords = ["ddos", "rate-limiting", "nftables", "fastapi", "asgi", "security", "gateway", "anomaly-detection", "post-quantum", "kms"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Framework :: FastAPI",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Security",
+]
+
+# Pins below are the EXACT versions this build was tested against.
+dependencies = [
+    "fastapi==0.136.3",
+    "starlette==1.3.1",
+    "uvicorn[standard]==0.49.0",
+    "redis==8.0.0",
+    "httpx==0.28.1",
+    "pydantic==2.13.4",
+    "pydantic-settings==2.14.1",
+    "structlog==26.1.0",
+    "prometheus-client==0.25.0",
+]
+
+[project.optional-dependencies]
+# Behavioural anomaly model (offline-trained IsolationForest). Pure in-process;
+# no network calls in the request path.
+ml = [
+    "scikit-learn==1.8.0",
+    "numpy==2.4.4",
+    "joblib==1.5.3",
+]
+# Out-of-band AI log triage CLI (never in the request hot path).
+ai = [
+    "anthropic>=0.40",
+]
+# Local offline IP geolocation (MaxMind GeoLite2). Preferred over the HTTP
+# fallback: no network call per lookup, so it keeps working under attack.
+geo = [
+    "geoip2>=4.8",
+]
+dev = [
+    "pytest==9.0.3",
+    "pytest-asyncio==1.4.0",
+    "fakeredis[lua]==2.36.1",
+    "lupa==2.8",
+    "ruff>=0.6",
+    "mypy>=1.11",
+]
+
+[project.scripts]
+sentinel-gate-qcg = "sentinel_gate_qcg.__main__:main"
+sentinel-gate-qcg-triage = "sentinel_gate_qcg.ai_triage:main"
+sentinel-gate-qcg-kernelsync = "sentinel_gate_qcg.kernel_sync:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/sentinel_gate_qcg"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src", "."]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+addopts = "-q --strict-markers"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "S", "C4", "SIM", "RUF"]
+# S101 (assert) is fine in tests; handled by per-file-ignores.
+ignore = [
+    "S104",   # binding to 0.0.0.0 is intentional/configurable for a gateway
+    # S105/S106 are heuristic "hardcoded password" detectors. This codebase
+    # hardcodes no secrets (all are loaded from the environment via pydantic
+    # settings); the rule only false-positives on the embedded Lua scripts and
+    # the placeholder-rejection set in config.py.
+    "S105",
+    "S106",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S", "B", "C408", "F841"]
+"tools/**" = ["S"]
+
+[tool.mypy]
+python_version = "3.11"
+warn_unused_ignores = true
+warn_redundant_casts = true
+no_implicit_optional = true
+disallow_untyped_defs = false
+ignore_missing_imports = true
+files = ["src"]

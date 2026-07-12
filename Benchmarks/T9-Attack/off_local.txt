@@ -1,0 +1,15 @@
+[off-local] flooding http://127.0.0.1:8800/api/about with 300 workers for 45s while measuring http://127.0.0.1:8800/api/about every 0.5s...
+
+====================================================
+RESULTS [off-local]
+====================================================
+Legitimate requests sent      : 39
+Legitimate succeeded          : 0 (0.0%)
+Legit latency median (ms)     : 411.0
+Legit latency p99 (ms)        : 464.2
+Legit latency max (ms)        : 464.2
+Attacker requests sent        : 28782
+Attacker reached backend (<400): 0
+Attacker blocked/errored      : 28782
+Attacker throughput (req/s)   : 640
+====================================================

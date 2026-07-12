@@ -1,0 +1,29 @@
+Classical baseline comparison: ML-KEM-1024 vs X25519
+iterations=1000  python=3.14.4
+==========================================================================
+
+[X25519 (ephemeral keygen + ECDH + HKDF-SHA256)]
+  stage                min      mean    median     stdev       max   (ms)
+  keygen           0.04931   0.07030   0.06206   0.02249   0.23441
+  encapsulate      0.10420   0.14596   0.13348   0.04184   0.38567
+  decapsulate      0.05525   0.07391   0.06735   0.02077   0.19643
+liboqs-python faulthandler is disabled
+
+[ML-KEM-1024 (liboqs)]
+  stage                min      mean    median     stdev       max   (ms)
+  keygen           0.03933   0.04703   0.04084   0.01395   0.21373
+  encapsulate      0.04065   0.04794   0.04193   0.01338   0.18318
+  decapsulate      0.04591   0.05451   0.04759   0.01451   0.18763
+
+==========================================================================
+Encapsulation cost (mean), the key-establishment operation:
+  X25519 (classical)          0.14596 ms
+  ML-KEM-1024/liboqs          0.04794 ms   (-0.09802 ms, 3.0x FASTER than X25519)
+
+Reading: with a production C implementation (liboqs), the
+post-quantum KEM is as fast as or FASTER than classical X25519.
+There is no measurable speed penalty for post-quantum security
+here, and the operation is negligible against network latency
+(a round-trip is typically 100 ms or more).
+
+CSV written: /home/deploy/paper-benchmarks/kem-comparison/mlkem_vs_x25519.csv

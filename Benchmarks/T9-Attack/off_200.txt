@@ -1,0 +1,15 @@
+[off-200] flooding https://qcgkms.cloud/api/about with 200 workers for 45s while measuring https://qcgkms.cloud/api/about every 0.5s...
+
+====================================================
+RESULTS [off-200]
+====================================================
+Legitimate requests sent      : 40
+Legitimate succeeded          : 40 (100.0%)
+Legit latency median (ms)     : 388.3
+Legit latency p99 (ms)        : 2236.6
+Legit latency max (ms)        : 2236.6
+Attacker requests sent        : 20087
+Attacker reached backend (<400): 20087
+Attacker blocked/errored      : 0
+Attacker throughput (req/s)   : 446
+====================================================

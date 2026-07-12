@@ -1,0 +1,25 @@
+QCG KMS KEM benchmark  (ML-KEM-1024)
+iterations=1000  sizes=['1MB', '10MB', '100MB', '500MB', '1GB']  python=3.14.4
+========================================================================
+liboqs-python faulthandler is disabled
+
+[liboqs]  (ML-KEM-1024)
+  stage                           min     mean   median    stdev      max   (ms)
+  keygen                       0.0406   0.0503   0.0434   0.0131   0.1638
+  encapsulate                  0.0417   0.0516   0.0438   0.0133   0.1296
+  decapsulate                  0.0471   0.0579   0.0501   0.0148   0.2289
+  envelope_encrypt[1MB]        0.7470   2.0893   1.0327   1.8661   5.1306
+  envelope_decrypt[1MB]        0.5788   1.6875   0.9586   1.2413   3.4346
+  envelope_encrypt[10MB]       6.5202  10.4107   6.7802   5.2764  17.5011
+  envelope_decrypt[10MB]       6.2338  10.2777   8.3618   4.6656  16.3378
+  envelope_encrypt[100MB]    137.7974 144.9254 140.2872   8.9276 158.4443
+  envelope_decrypt[100MB]    139.6627 148.0035 142.2459  10.7294 165.7021
+  envelope_encrypt[500MB]    672.5453 732.1851 719.6803  52.9653 794.7138
+  envelope_decrypt[500MB]    700.8080 725.5942 725.9026  27.2289 767.3318
+  envelope_encrypt[1GB]     1425.57331485.09861463.8607  52.50991558.3315
+  envelope_decrypt[1GB]     1465.89141610.42811485.2550 292.62442133.3757
+
+CSV written: /home/deploy/paper-benchmarks/kem-benchmark/kem_aes_liboqs.csv
+
+Note: these are pure-crypto timings (no network, no HTTP). For the
+real-world client experience including network, use 'qcg ... --bench'.

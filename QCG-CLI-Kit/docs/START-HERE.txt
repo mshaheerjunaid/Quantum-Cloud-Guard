@@ -1,0 +1,177 @@
+========================================================================
+  QUANTUM CLOUD GUARD (QCG) - START HERE
+  A simple guide to encrypting and decrypting company files.
+========================================================================
+
+You do NOT need Python or any other software. The qcg.exe program in this
+folder is complete and ready to run on its own.
+
+You will do a short ONE-TIME setup (about 3 minutes), then from then on it is
+just two commands: lock a file, and unlock a file.
+
+Your administrator will give you ONE thing: your personal Access Key. It looks
+like this:  qcg_xxxxxxxxxxxxxxxxxxxxxxxxxxxx
+Keep it private. It is like a password. You will paste it in once, in Step 4.
+
+
+------------------------------------------------------------------------
+  STEP 1: Put the program somewhere permanent
+------------------------------------------------------------------------
+
+1. Create a folder called  QCG  on your C: drive, so the path is:
+       C:\QCG
+
+2. Copy qcg.exe from this bundle into that folder, so you have:
+       C:\QCG\qcg.exe
+
+(You can use any folder you like, but this guide uses C:\QCG. If you choose a
+different folder, use your folder's path everywhere C:\QCG appears below.)
+
+
+------------------------------------------------------------------------
+  STEP 2: Open PowerShell
+------------------------------------------------------------------------
+
+1. Click the Start menu.
+2. Type:  powershell
+3. Click "Windows PowerShell".
+
+A blue window opens with a prompt like  PS C:\Users\YourName>
+This is where you type the commands below. Type one line, press Enter, then
+do the next.
+
+
+------------------------------------------------------------------------
+  STEP 3: Make "qcg" usable from anywhere (one-time, permanent)
+------------------------------------------------------------------------
+
+This tells Windows where qcg.exe lives, so you can type just "qcg" instead of
+the full path every time. You only do this ONCE.
+
+Copy and paste this whole line into PowerShell, then press Enter:
+
+    [Environment]::SetEnvironmentVariable("Path", [Environment]::GetEnvironmentVariable("Path","User") + ";C:\QCG", "User")
+
+Nothing visible happens, that is normal. It saved the setting.
+
+IMPORTANT: now CLOSE this PowerShell window completely and open a NEW one
+(repeat Step 2). The change only takes effect in new windows.
+
+To check it worked, in the new window type:
+
+    qcg
+
+You should see a help message listing "encrypt", "trust", "decrypt", "checkin", "info".
+If you see that, you are good. If it says "not recognized", see TROUBLESHOOTING
+at the bottom.
+
+
+------------------------------------------------------------------------
+  STEP 4: Enter your Access Key (one-time)
+------------------------------------------------------------------------
+
+This saves your server address and your personal Access Key so you do not have
+to type them every time.
+
+First, make the settings folder. Paste this and press Enter:
+
+    mkdir "$env:USERPROFILE\.qcg" -Force
+
+Now save your settings. REPLACE  qcg_PASTE_YOUR_KEY_HERE  with the real Access
+Key your administrator gave you (keep the quotes). Paste the whole block, then
+press Enter:
+
+    @'
+    {
+      "url": "https://qcgkms.cloud",
+      "api_key": "qcg_PASTE_YOUR_KEY_HERE"
+    }
+    '@ | Set-Content -Encoding ascii "$env:USERPROFILE\.qcg\config.json"
+
+That is it. Your key is saved. You will not be asked for it again.
+
+
+------------------------------------------------------------------------
+  STEP 5: Verify your server's identity (one-time)
+------------------------------------------------------------------------
+
+This pins your server's signing key, so the program can confirm that the keys
+it uses genuinely come from your company's server and were not tampered with by
+someone on the network. You only do this ONCE.
+
+Paste this and press Enter:
+
+    qcg trust
+
+It prints a short "fingerprint" (a line starting with sha256:). Read that
+fingerprint to your administrator, by phone, in person, or on a channel you
+trust, and check it matches what they see. If it matches, you are protected.
+This confirms nobody is impersonating your server.
+
+
+------------------------------------------------------------------------
+  STEP 6: You are ready. Everyday use.
+------------------------------------------------------------------------
+
+Your administrator also tells you your KEY NAME (for example: team-data). You
+use that in the commands below.
+
+LOCK a file (encrypt) - before storing or sending it:
+
+    qcg encrypt "C:\path\to\Report.pdf" --key team-data
+
+   This creates  Report.pdf.qcg  (the locked version). Share or store that one.
+
+
+UNLOCK a file (decrypt) - to open a locked file:
+
+    qcg decrypt "C:\path\to\Report.pdf.qcg"
+
+   This creates  Report.pdf  (the readable version) and starts your time window.
+
+
+RETURN a file (check-in) - after you finish editing it:
+
+    qcg checkin "C:\path\to\Report.pdf" --key team-data
+
+   This re-locks your edited file and closes your time window.
+
+
+CHECK a file without opening it:
+
+    qcg info "C:\path\to\Report.pdf.qcg"
+
+   Shows the file's details. Does not unlock anything.
+
+
+Tip: instead of typing a long path, you can drag a file from File Explorer
+into the PowerShell window and it pastes the full path for you.
+
+
+------------------------------------------------------------------------
+  TROUBLESHOOTING
+------------------------------------------------------------------------
+
+"qcg is not recognized"
+  - You are in an old PowerShell window. Close it and open a new one.
+  - Or Step 3 was skipped. Redo Step 3, then open a new window.
+  - As a fallback you can always run it by full path:
+        C:\QCG\qcg.exe encrypt "C:\path\to\file.pdf" --key team-data
+
+"KMS url and api key required"
+  - Step 4 was not completed, or the key was pasted wrong. Redo Step 4 and make
+    sure your real Access Key is inside the quotes.
+
+"not a QCG file (bad magic)"
+  - You tried to decrypt a file that is not a .qcg file. Decrypt the .qcg
+    version, not the original.
+
+"403" or "not authorized for this key"
+  - Your administrator has not given your account access to that key. Ask them
+    to grant you access to the key name you are using.
+
+Double-clicking qcg.exe does nothing useful
+  - That is expected. It is a command-line tool. Run it from PowerShell as shown
+    above, not by double-clicking.
+
+Anything else: contact your administrator.

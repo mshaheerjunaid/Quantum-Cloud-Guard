@@ -1,0 +1,21 @@
+=== Caddy version ===
+v2.11.4 h1:XKxkMTgNSizEvKG6QHue6cAsFOteU2qA61w2tKkCWi0=
+
+=== Negotiated TLS group (default handshake) ===
+   i:C=US, O=Internet Security Research Group, CN=ISRG Root X2
+ 3 s:C=US, O=Internet Security Research Group, CN=ISRG Root X2
+   i:C=US, O=Internet Security Research Group, CN=ISRG Root X1
+Negotiated TLS1.3 group: X25519MLKEM768
+New, TLSv1.3, Cipher is TLS_AES_128_GCM_SHA256
+Protocol: TLSv1.3
+    Protocol  : TLSv1.3
+    Cipher    : TLS_AES_128_GCM_SHA256
+
+=== Explicit X25519MLKEM768 test ===
+   i:C=US, O=Internet Security Research Group, CN=ISRG Root X2
+ 3 s:C=US, O=Internet Security Research Group, CN=ISRG Root X2
+   i:C=US, O=Internet Security Research Group, CN=ISRG Root X1
+Negotiated TLS1.3 group: X25519MLKEM768
+No ALPN negotiated
+
+Captured: Wed Jul  8 12:04:28 AM UTC 2026

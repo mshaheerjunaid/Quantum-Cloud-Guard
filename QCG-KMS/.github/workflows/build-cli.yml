@@ -1,0 +1,46 @@
+name: build-cli
+
+# Builds the standalone `qcg` client on Windows, macOS, and Linux and uploads
+# each as a downloadable artifact (qcg.exe is produced by the Windows runner).
+# Run manually from the Actions tab, or push a tag like v1.2.0.
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ["v*"]
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            artifact: qcg-windows
+          - os: macos-latest
+            artifact: qcg-macos
+          - os: ubuntu-latest
+            artifact: qcg-linux
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install build deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyinstaller cryptography
+      - name: Build executable
+        run: >
+          pyinstaller --onefile --name qcg --clean --noconfirm
+          --collect-submodules cryptography
+          packaging/qcg_entry.py
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: |
+            dist/qcg
+            dist/qcg.exe
+          if-no-files-found: error

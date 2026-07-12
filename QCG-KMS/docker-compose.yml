@@ -1,0 +1,34 @@
+# Standalone QCG KMS stack.
+#
+# Generate the one required secret, then bring it up:
+#   export QCG_MASTER_KEY=$(python -c "import os,base64;print(base64.b64encode(os.urandom(32)).decode())")
+#   export QCG_ADMIN_PASSWORD=$(python -c "import secrets;print(secrets.token_urlsafe(16))")
+#   docker compose up --build
+#
+# The UI is published to the host on 127.0.0.1:8800 for local access.
+# When you put Sentinel Gate in front (VPS phase), remove the `ports:` mapping
+# so the KMS is reachable only from the gateway over the internal network.
+
+services:
+  kms:
+    build: .
+    environment:
+      QCG_ENVIRONMENT: production
+      # Required: the master key that seals private keys at rest.
+      QCG_MASTER_KEY: ${QCG_MASTER_KEY:?set a 32-byte base64 master key}
+      # Optional first-run admin bootstrap.
+      QCG_ADMIN_USER: ${QCG_ADMIN_USER:-admin}
+      QCG_ADMIN_PASSWORD: ${QCG_ADMIN_PASSWORD:-}
+      QCG_KEM_BACKEND: ${QCG_KEM_BACKEND:-auto}
+      QCG_DB_PATH: /data/qcg_kms.db
+      QCG_HOST: 0.0.0.0
+      QCG_PORT: 8800
+    volumes:
+      - kms-data:/data
+    ports:
+      # Host-local only. Remove this block when fronting with Sentinel Gate.
+      - "127.0.0.1:8800:8800"
+    restart: unless-stopped
+
+volumes:
+  kms-data:

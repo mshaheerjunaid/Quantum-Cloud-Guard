@@ -1,0 +1,19 @@
+# Keep the image build context small, but DO NOT exclude files the build needs.
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+*.db
+*.db-wal
+*.db-shm
+.env
+.git/
+ui/node_modules/
+ui/dist/
+src/qcg_kms/static/
+*.md
+# README is required by the wheel build (pyproject readme=).
+!README.md

@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+dist/
+build/
+.venv/
+venv/
+# Tooling caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+# Runtime data / secrets
+*.db
+*.mmdb
+*.db-wal
+*.db-shm
+.env
+# Built UI (regenerated from ui/ at build time)
+src/qcg_kms/static/
+# Node
+ui/node_modules/
+ui/dist/

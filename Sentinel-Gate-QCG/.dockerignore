@@ -1,0 +1,14 @@
+.git
+.github
+tests
+tools
+*.md
+# README.md is required by the package build (pyproject readme); keep it.
+!README.md
+.venv
+__pycache__
+.pytest_cache
+.ruff_cache
+.mypy_cache
+.env
+*.joblib
