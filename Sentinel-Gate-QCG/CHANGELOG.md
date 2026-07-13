@@ -61,8 +61,7 @@ Device authorization (mutual TLS).
 
 ## [1.0.0], Initial release
 
-First release of Sentinel Gate QCG, the multi-layer DDoS and security gateway
-for the QCG key-management service. Capabilities at release:
+First release of Sentinel Gate QCG, the multi-layer abuse-prevention and telemetry gateway:
 
 **Kernel tier (Layer 3 / 4)**
 - nftables ruleset: per-source connection-rate limiting, ICMP rate limiting,
