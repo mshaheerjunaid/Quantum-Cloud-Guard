@@ -68,11 +68,12 @@ class LibOQSProvider:
 def get_provider(backend: str = "auto") -> KEMProvider:
     """Return a *working* KEM provider.
 
-    'auto' prefers liboqs but verifies it with a real keygen before trusting it,
-    so a misconfigured liboqs (e.g. missing shared library) falls back cleanly to
-    the pure-Python backend instead of failing at first use.
+    'auto' prefers liboqs but verifies it with a real encapsulate/decapsulate
+    round trip before trusting it, so a misconfigured liboqs (e.g. a missing
+    shared library) falls back cleanly to the pure-Python backend instead of
+    failing at first use.
     """
-if backend in ("auto", "liboqs"):
+    if backend in ("auto", "liboqs"):
         try:
             provider = LibOQSProvider()
             pk, sk = provider.generate_keypair()
