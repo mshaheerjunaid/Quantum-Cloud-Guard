@@ -9,7 +9,7 @@ words** parts for the gist; the **In detail** parts have the specifics.
 
 **In plain words.** Sentinel Gate is the *security guard at the front door* of
 your KMS server. Before any request reaches the KMS, it passes through the guard,
-who: turns away floods of malicious traffic (DDoS), slows down anyone hammering
+who: turns away floods of malicious traffic, slows down anyone hammering
 the door (rate limiting), bans repeat offenders, and, if you turn it on, checks
 that the visitor is using a *company-issued device* (a digital ID card). Only
 clean, allowed traffic gets through to the KMS behind it.
@@ -30,7 +30,7 @@ safely behind trusted proxies.
 - **The bouncer** (Sentinel Gate) stands at the door.
 - **The club** (the KMS) is inside and never deals with the street directly.
 - The bouncer checks **ID cards** (device certificates), turns away **mobs**
-  (DDoS), tells people **hammering the door to wait** (rate limiting), and keeps
+  tells people hammering the door to wait (rate limiting), and keeps
   a **banned list**.
 - Once you're inside, the club's own **membership desk** (the KMS's login, roles,
   timers) decides what you can actually do.
