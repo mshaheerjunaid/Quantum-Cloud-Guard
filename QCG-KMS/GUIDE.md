@@ -62,7 +62,7 @@ time it happens*.
   itself. Auth via user sessions (cookies) and bearer API keys.
 - `qcg`, a Python CLI (also buildable as a standalone `.exe`); streams file
   crypto in 1 MiB chunks, so multi-GB files use constant memory.
-- Sentinel Gate, the edge gateway (rate limiting, DDoS, mTLS device auth).
+- Sentinel Gate, the edge gateway (rate limiting, abuse prevention, mTLS device auth).
 
 ---
 
