@@ -1,18 +1,24 @@
 # Sentinel Gate QCG
 
-> **New here?** Read **GUIDE.md** for a plain-language + technical walkthrough of what the gateway does and how it fits in front of the KMS.
+> **New here?** Read **GUIDE.md** for a plain-language and technical walkthrough
+> of what the gateway does and how it fits in front of the KMS.
 
+A self-hosted, application-layer abuse-prevention gateway built to keep the QCG
+key-management service reachable for legitimate clients while an adversary
+attempts to exhaust it. It applies per-identity rate limiting, reputation
+scoring, behavioural anomaly detection, proof-of-work challenges, and device
+fingerprinting at the layer where request meaning is visible, and ships kernel
+packet-filter configuration for operators who want an additional network-layer
+tier.
 
-A self-hosted, multi-layer DDoS and security gateway built to keep the QCG
-key-management service (KMS) reachable for legitimate clients while an
-adversary tries to exhaust it. It combines a kernel-level packet-filtering
-layer (L3/L4) with an application-layer decision engine (L5–L7), so volumetric
-network floods are dropped in the kernel and application-semantic abuse is
-handled where request meaning is visible.
+Scope note: Sentinel Gate targets application-semantic abuse and single-source
+flooding. It is not a distributed denial-of-service mitigation service, and no
+single self-hosted server can be. Volumetric DDoS defence belongs upstream, at
+the network provider.
 
-Sentinel Gate QCG is a distinct system purpose-built for the QCG project. State
-lives in Redis; the application tier is asynchronous, horizontally scalable,
-and stateless between requests apart from that shared store.
+Sentinel Gate QCG is purpose-built for the QCG project. State lives in Redis;
+the application tier is asynchronous, horizontally scalable, and stateless
+between requests apart from that shared store.
 
 
 ## Device authorization (mutual TLS)
