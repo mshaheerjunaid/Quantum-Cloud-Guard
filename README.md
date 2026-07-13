@@ -49,4 +49,4 @@ Muhammad Shaheer Bin Junaid
 
 ## Licence
 
-See the LICENSE file in each project folder.
+MIT. See the LICENSE file.
