@@ -62,7 +62,7 @@ def create_app(settings: Settings | None = None, redis_gw: RedisGateway | None =
 
     app = FastAPI(
         title="Sentinel Gate QCG",
-        version="1.1.1",
+        version="1.2.0",
         description="Application-layer abuse-prevention and telemetry gateway for the QCG KMS.",
         lifespan=lifespan,
     )
