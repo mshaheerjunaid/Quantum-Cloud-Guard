@@ -14,10 +14,12 @@ the door (rate limiting), bans repeat offenders, and, if you turn it on, checks
 that the visitor is using a *company-issued device* (a digital ID card). Only
 clean, allowed traffic gets through to the KMS behind it.
 
-**In detail.** Sentinel Gate is a multi-layer reverse-proxy / protection gateway.
-It combines kernel-level filtering (nftables for L3/L4: SYN limits, blocklists)
-with an application pipeline (L5–L7 in FastAPI + Redis): IP reputation, identity
-limits, circuit breaking, proof-of-work challenges, anomaly scoring, an atomic
+**In detail.** Sentinel Gate is a multi-layer protection gateway. It can run 
+standalone as a reverse proxy, or embedded directly inside the key service as 
+in-process middleware, which is how QCG deploys it. It combines kernel-level 
+filtering (nftables for L3/L4: SYN limits, blocklists) with an application 
+pipeline (L5 to L7 in FastAPI and Redis): IP reputation, identity limits, 
+circuit breaking, proof-of-work challenges, anomaly scoring, an atomic
 token-bucket rate limiter (escalating bans), and **mutual-TLS device
 authorization**. It sets strict security headers and resolves the real client IP
 safely behind trusted proxies.
