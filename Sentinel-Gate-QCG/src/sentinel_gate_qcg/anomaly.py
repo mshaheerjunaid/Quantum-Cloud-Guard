@@ -1,6 +1,6 @@
 """Behavioural anomaly detection.
 
-This is where machine learning genuinely earns its place in a DDoS gateway,
+This is where machine learning genuinely earns its place in a abuse-prevention gateway,
 and *only* here. Static per-IP limits cannot see a distributed low-and-slow
 flood: ten thousand bots each sending one request every few seconds all stay
 under any sane per-client threshold, yet together they sink the backend. What
