@@ -68,14 +68,18 @@ class LibOQSProvider:
 def get_provider(backend: str = "auto") -> KEMProvider:
     """Return a *working* KEM provider.
 
-    'auto' prefers liboqs but verifies it with a real keygen before trusting it,
-    so a misconfigured liboqs (e.g. missing shared library) falls back cleanly to
-    the pure-Python backend instead of failing at first use.
+    'auto' prefers liboqs but verifies it with a real encapsulate/decapsulate
+    round trip before trusting it, so a misconfigured liboqs (e.g. a missing
+    shared library) falls back cleanly to the pure-Python backend instead of
+    failing at first use.
     """
     if backend in ("auto", "liboqs"):
         try:
             provider = LibOQSProvider()
-            provider.generate_keypair()  # force shared-lib load / verify it works
+            pk, sk = provider.generate_keypair()
+            ct, ss_enc = provider.encapsulate(pk)
+            if provider.decapsulate(sk, ct) != ss_enc:
+                raise RuntimeError("liboqs ML-KEM self-test failed")
             return provider
         except Exception:
             if backend == "liboqs":
