@@ -124,5 +124,5 @@ Quality bar for this release: ruff clean, mypy clean, 78 automated tests passing
 ## Companion component
 
 Sentinel Gate QCG, the edge gateway that sits in front of this service on the
-public internet (DDoS/abuse mitigation, rate limiting, and optional mutual-TLS
+public internet (abuse prevention, rate limiting, and optional mutual-TLS
 device authorization). See its own package and `GUIDE.md`.
