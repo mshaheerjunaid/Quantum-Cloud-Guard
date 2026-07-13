@@ -157,7 +157,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     docs_url = "/docs" if settings.enable_docs else None
     redoc_url = "/redoc" if settings.enable_docs else None
     openapi_url = "/openapi.json" if settings.enable_docs else None
-    app = FastAPI(title="QCG KMS", version="1.3.1", lifespan=lifespan,
+    app = FastAPI(title="QCG KMS",version="1.5.1", lifespan=lifespan,
                  docs_url=docs_url, redoc_url=redoc_url, openapi_url=openapi_url)
 
     # Defense in depth (independent of the gateway). Order: outermost first.
