@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "sentinel-gate-qcg"
 version = "1.2.0"
-description = "Sentinel Gate QCG: a self-hosted, multi-layer (L3/L4/L7) DDoS and security gateway for protecting the QCG KEM/KMS. Kernel-level packet filtering, atomic token-bucket rate limiting, spoof-resistant client identity, proof-of-work challenges, behavioural anomaly detection with off-path error-ratio feedback, and out-of-band AI log triage."
+description = "Sentinel Gate QCG: a self-hosted, abuse-prevention and telemetry gateway for protecting the QCG KEM/KMS. Kernel-level packet filtering, atomic token-bucket rate limiting, spoof-resistant client identity, proof-of-work challenges, behavioural anomaly detection with off-path error-ratio feedback, and out-of-band AI log triage."
 readme = "README.md"
 requires-python = ">=3.11"
 license = { file = "LICENSE" }
