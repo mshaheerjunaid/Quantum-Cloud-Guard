@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.11"
 license = { file = "LICENSE" }
 authors = [{ name = "Muhammad Shaheer Bin Junaid" }]
-keywords = ["ddos", "rate-limiting", "nftables", "fastapi", "asgi", "security", "gateway", "anomaly-detection", "post-quantum", "kms"]
+keywords = ["abuse-prevention", "rate-limiting", "nftables", "fastapi", "asgi", "security", "gateway", "anomaly-detection", "post-quantum", "kms"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Framework :: FastAPI",
